@@ -178,8 +178,9 @@ imshow(img)
 pts0_0, pts0_1 = Matcheur.getPointsFromMatch(match_0_1, kp0_0, kp0_1)
 
 ####################################################################
-# Question : filtrer l'appariement en utilisant un estimation par RANSAC
+# Question : filtrer l'appariement en utilisant une estimation par RANSAC
 #            de la matrice fondamentale et donnez le nombre d'inlier/outlier
+#            ( fonction findFundamental de cv2)
 ####################################################################
 # Reponse :
 
@@ -218,13 +219,14 @@ image_pts  = pts0_1.reshape([N,1,2]).astype(np.float32)
 ######################################################################
 # Question : utilisez les fonction solvePnPRansac  et solvePnP avec les
 #            options cv2.CV_EPNP et cv2.ITERATIVE
-#            pour calculer la pose de la cameras au temps1
+#            pour calculer la pose de la cameras au temps1 et mettre le
+#            résultat dans t_0_1 et R_0_1
 #######################################################################
 # Reponse :
 #%%
 print '========================================'
 #
-print 'resultat PnP : '
+print 'resultat EPnP : '
 print 'translation : (%02.02f,%02.02f,%02.02f) '%(t_0_1[0],t_0_1[1],t_0_1[2])
 print 'rotation    : (%02.02f,%02.02f,%02.02f) '%(R_0_1[0], R_0_1[1], R_0_1[2])
 print '========================================'
@@ -241,10 +243,6 @@ print 'translation : (%02.02f,%02.02f,%02.02f) '%(t_0_1[0],t_0_1[1],t_0_1[2])
 print 'rotation    : (%02.02f,%02.02f,%02.02f) '%(R_0_1[0], R_0_1[1], R_0_1[2])
 print '========================================'
 #%%
-# time EPNP : 895 us
-# time iterative : 11.3 ms
-# time ransac : 3.66ms
-#
 ###########################################################################
 # Question : Quel est la solution qui vous semble la plus vraissemblable
 #            (sachant que les mesures sont données en mètre et radian)?
@@ -266,7 +264,7 @@ R_0_to_1, _ = cv2.Rodrigues(R_0_1)
 T_0_to_1 = t_0_1
 
 ############################################################################
-# Question : matchez et triangulé le nuage de points au temps1
+# Question : mettez en correspondances et triangulez un nuage de points au temps1
 ############################################################################
 # Reponse :
 
@@ -309,6 +307,8 @@ def draw_triedre(ax,R = np.eye(3),T = np.zeros([3,1]), size = 0.5):
 
 
     ###########################################################################
+    # Rq : la permutation des axes plus bat sert a rendre la visualisation plus 
+    # comprehenssible
     ax.plot([orig[0,0],x[0,0]],[orig[2,0],x[2,0]],[-orig[1,0],-x[1,0]], c=(1.,0.,0.),lw = 3)
     ax.plot([orig[0,0],y[0,0]],[orig[2,0],y[2,0]],[-orig[1,0],-y[1,0]], c=(0.,1.,0.),lw = 3)
     ax.plot([orig[0,0],z[0,0]],[orig[2,0],z[2,0]],[-orig[1,0],-z[1,0]], c=(0.,0.,1.),lw = 3)
@@ -338,7 +338,7 @@ def playOdometer3D(num_images):
     # Question : calculez du nuage de points initial (temps0)
     ###########################################################################
     # Reponse :
-
+    
     ###########################################################################
     ax.scatter(pts3D_0[:,0], pts3D_0[:,2],-pts3D_0[:,1], s=40, c=(1.,0,0))
     for i in range(1,num_images):
