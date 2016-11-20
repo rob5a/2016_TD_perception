@@ -390,6 +390,7 @@ for I0, I1, _ in getImages():
 vid.release()
 cv2.destroyWindow('carte')
 
+
 #%%
 ###############################################################################
 # Question :
