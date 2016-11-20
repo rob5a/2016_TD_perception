@@ -377,7 +377,7 @@ for I0, I1, _ in getImages():
         visu = np.concatenate([I0c,visu], axis = 1).astype(np.uint8)
         if vid is None:
             row, col = visu.shape[:2]
-            vid = cv2.VideoWriter('/data/TP3_'+sequence+'.avi',fourcc, 10.0, (col, row), True)
+            vid = cv2.VideoWriter('/home/viki/data_td/perception//TP3_'+sequence+'.avi',fourcc, 10.0, (col, row), True)
             vid.write(visu)
         else:
             vid.write(visu)
