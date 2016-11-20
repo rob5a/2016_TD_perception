@@ -350,12 +350,18 @@ class CartoElevation2D:
 
 #%%
 #%%
+# Jeux de parametres suivant la sequence traité
+# salon :
+param = dict(depth_max = 12, resolution = (600,600), origin = (400,300), visu_scale = 3)
+
+#%%
+# clairiere 
+param = dict(depth_max = 12, resolution = (400,400), origin = (200,100), visu_scale = 3)
+#%%
 
 # Création de la classe de cartographie 
 
-carto = CartoElevation2D(trajectorie,depth_max = 12,
-                             resolution = (400,400), origin = (200,100),
-                             visu_scale = 3)
+carto = CartoElevation2D(trajectorie, **param)
 carto.setCalibration(baseline,K0)
 
 #%%
